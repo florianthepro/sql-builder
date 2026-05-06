@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="de">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SQL Testing</title>
+    <title>SQL Lernen</title>
     <style>
         :root {
             --bg: #121212;
@@ -19,18 +18,13 @@
             --mono: "Courier New", ui-monospace, Menlo, Consolas, monospace;
             --sans: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
         }
-
-        * {
-            box-sizing: border-box
-        }
-
+        * { box-sizing: border-box }
         body {
             margin: 14px;
             font-family: var(--sans);
             color: var(--text);
             background: var(--bg)
         }
-
         .top {
             display: flex;
             align-items: center;
@@ -39,42 +33,36 @@
             flex-wrap: wrap;
             margin-bottom: 10px
         }
-
         h1 {
             font-size: 16px;
             margin: 0;
             font-weight: 700
         }
-
         .group {
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap
         }
-
         .btn {
             padding: 7px 10px;
             border: 1px solid var(--border);
             background: var(--panel2);
             cursor: pointer;
             color: var(--text);
-            font-size: 13px
+            font-size: 13px;
+            white-space: nowrap
         }
-
         .btn:hover {
             border-color: var(--accent)
         }
-
         .btn.secondary {
             background: transparent
         }
-
         .btn:disabled {
             opacity: .55;
             cursor: not-allowed
         }
-
         .badge {
             border: 1px solid var(--border);
             background: var(--panel);
@@ -82,14 +70,12 @@
             font-size: 12px;
             padding: 3px 8px;
         }
-
         .toggle {
             display: inline-flex;
             border: 1px solid var(--border);
             background: var(--panel);
             padding: 2px
         }
-
         .toggle button {
             border: 0;
             background: transparent;
@@ -98,83 +84,54 @@
             cursor: pointer;
             font-size: 13px
         }
-
         .toggle button.active {
             background: var(--panel2);
             color: var(--text);
             outline: 1px solid var(--border);
         }
-
         .sql {
             border: 1px solid var(--border);
             background: var(--panel);
             padding: 10px;
             margin-bottom: 10px;
+            cursor: text;
         }
-
         .sql .title {
             font-weight: 700;
             font-size: 12px;
             color: var(--muted);
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 6px
         }
-
-        .sql .title button {
-            padding: 3px 6px;
-            font-size: 11px;
-        }
-
         pre {
             margin: 0;
             font-family: var(--mono);
             font-size: 13px;
             white-space: pre-wrap;
             line-height: 1.45;
-            cursor: text;
-            padding: 8px;
-            background: var(--bg);
-            border-radius: 3px;
-            display: none;
+            word-break: break-all;
         }
-
-        pre.active {
-            display: block;
-        }
-
         textarea {
             width: 100%;
-            min-height: 120px;
-            padding: 8px;
-            font-family: var(--mono);
-            font-size: 13px;
+            min-height: 80px;
+            padding: 6px;
+            border: 1px solid var(--accent);
             background: var(--bg);
             color: var(--text);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            display: none;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.45;
             resize: vertical;
         }
-
-        textarea.active {
-            display: block;
-        }
-
         .layout {
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px;
-            align-items: start;
         }
-
         .main {
             border: 1px solid var(--border);
             background: var(--panel);
             padding: 10px;
         }
-
         .mainHead {
             display: flex;
             justify-content: space-between;
@@ -183,100 +140,61 @@
             flex-wrap: wrap;
             margin-bottom: 8px
         }
-
         .mainHead .t {
             font-weight: 700
         }
-
         .mainHead .s {
             font-size: 12px;
             color: var(--muted)
         }
-
         .scroll {
             max-height: 70vh;
             overflow: auto;
             border: 1px solid var(--border);
             background: var(--bg);
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px
         }
-
-        th,
-        td {
+        th, td {
             border: 1px solid var(--border);
             padding: 6px 7px;
             text-align: left;
             white-space: nowrap
         }
-
         th {
             background: #2a2a2a;
             position: sticky;
             top: 0;
             z-index: 1;
             cursor: pointer;
-            color: var(--text)
+            color: var(--text);
+            font-weight: 700;
         }
-
         th.selCol {
             outline: 2px solid rgba(138, 180, 248, .35);
             outline-offset: -2px
         }
-
         tr.selected td {
             background: rgba(138, 180, 248, .16)
         }
-
         td.cellFiltered {
             background: rgba(167, 243, 208, .10)
         }
-
         .note {
             font-size: 12px;
             color: var(--muted);
             margin-top: 8px
         }
-
         .toolbox {
-            position: fixed;
-            right: 0;
-            top: 0;
-            width: 360px;
-            height: 100vh;
             border: 1px solid var(--border);
-            border-right: none;
             background: var(--panel);
             padding: 10px;
+            max-height: 80vh;
             overflow-y: auto;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
         }
-
-        .toolbox.open {
-            transform: translateX(0);
-        }
-
-        .toolbox-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 999;
-        }
-
-        .toolbox-overlay.open {
-            display: block;
-        }
-
         .toolHead {
             display: flex;
             justify-content: space-between;
@@ -284,18 +202,13 @@
             gap: 10px;
             margin-bottom: 8px
         }
-
         .toolHead .t {
             font-weight: 700
         }
-
-        .toolHead .close-btn {
-            cursor: pointer;
-            font-weight: bold;
-            color: var(--muted);
-            font-size: 18px;
+        .toolHead .s {
+            font-size: 12px;
+            color: var(--muted)
         }
-
         .tabs {
             display: flex;
             gap: 6px;
@@ -304,7 +217,6 @@
             padding-bottom: 8px;
             margin-bottom: 8px;
         }
-
         .tab {
             border: 1px solid var(--border);
             background: transparent;
@@ -314,30 +226,24 @@
             cursor: pointer;
             user-select: none;
         }
-
         .tab.active {
             background: var(--panel2);
             color: var(--text);
             border-color: rgba(138, 180, 248, .45);
         }
-
         .pane {
             display: none
         }
-
         .pane.active {
             display: block
         }
-
         label {
             display: block;
             font-size: 12px;
             color: var(--muted);
             margin-top: 8px
         }
-
-        select,
-        input {
+        select, input {
             width: 100%;
             padding: 6px;
             border: 1px solid var(--border);
@@ -345,41 +251,34 @@
             color: var(--text);
             font-size: 13px
         }
-
-        select:focus,
-        input:focus {
+        select:focus, input:focus {
             outline: 2px solid rgba(138, 180, 248, .25);
             outline-offset: 1px
         }
-
         .row2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 8px
         }
-
         .row3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
             margin-top: 8px
         }
-
         .row4 {
             display: grid;
             grid-template-columns: 1.2fr .8fr 1.2fr 1fr;
             gap: 10px;
             margin-top: 8px
         }
-
         .chips {
             margin-top: 8px;
             display: flex;
             flex-wrap: wrap;
             gap: 6px
         }
-
         .chip {
             border: 1px solid var(--border);
             padding: 4px 6px;
@@ -389,12 +288,10 @@
             gap: 6px;
             background: transparent
         }
-
         .chip input {
             width: 120px;
             padding: 3px 4px
         }
-
         .x {
             font-weight: 700;
             cursor: pointer;
@@ -402,212 +299,174 @@
             user-select: none;
             color: var(--danger)
         }
-
         .mini {
             font-size: 12px;
             color: var(--muted);
             margin-top: 6px
         }
-
         @media (max-width: 1100px) {
-            .toolbox {
-                width: 100%;
-            }
-
-            .scroll {
-                max-height: 55vh
-            }
-
             .row4 {
                 grid-template-columns: 1fr 1fr
             }
         }
     </style>
 </head>
-
 <body>
     <div class="top">
         <h1>SQL Lernen</h1>
-
         <div class="group">
             <div class="toggle" aria-label="Ansicht">
                 <button id="btnViewDB" class="active" title="Basistabelle anzeigen">Datenbank</button>
                 <button id="btnViewOut" title="Ergebnis anzeigen">Output</button>
             </div>
-
             <span class="badge" id="badgeBase">Basis: 0</span>
             <span class="badge" id="badgeResult">Ergebnis: 0</span>
-
             <button class="btn secondary" id="btnExample" title="Beispiel laden">Beispiel</button>
             <button class="btn" id="btnReset" title="Zurücksetzen">Reset</button>
-            <button class="btn secondary" id="btnToolbox" title="Baukasten öffnen">Baukasten</button>
+            <button class="btn secondary" id="btnBuilder" title="Baukasten öffnen">⚙️ Baukasten</button>
         </div>
     </div>
 
-    <div class="sql">
-        <div class="title">
-            <span>SQL Befehl</span>
-            <button class="btn secondary" id="btnToggleEdit" style="font-size: 12px;">✎ Bearbeiten</button>
-        </div>
-        <pre id="sqlOut" class="active"></pre>
-        <textarea id="sqlEdit"></textarea>
+    <div class="sql" id="sqlContainer">
+        <div class="title">Befehl (klick zum bearbeiten)</div>
+        <pre id="sqlOut"></pre>
     </div>
 
     <div class="layout">
-        <!-- Table -->
         <div class="main">
             <div class="mainHead">
                 <div class="t" id="mainTitle">Datenbank</div>
-                <div class="s" id="mainHint">Spaltenkopf: Spalte anzeigen · Zelle: Filter setzen · Doppelklick Zeile:
-                    id-Filter</div>
+                <div class="s" id="mainHint">Spaltenkopf: Spalte anzeigen · Zelle: Filter setzen · Doppelklick Zeile: id-Filter</div>
             </div>
-
             <div class="scroll">
                 <table id="mainTable"></table>
             </div>
-
             <div class="note" id="mainNote"></div>
         </div>
+
+        <aside class="toolbox" id="toolbox" style="display:none;">
+            <div class="toolHead">
+                <div class="t">Baukasten</div>
+                <button class="btn secondary" id="btnCloseBuilder" style="padding: 4px 8px; font-size: 12px;">✕</button>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Werkzeuge">
+                <button class="tab active" data-pane="paneCols" role="tab">Spalten</button>
+                <button class="tab" data-pane="paneFilt" role="tab">Filter</button>
+                <button class="tab" data-pane="paneSort" role="tab">Sortierung</button>
+                <button class="tab" data-pane="paneCalc" role="tab">Berechnen</button>
+            </div>
+
+            <div class="pane active" id="paneCols" role="tabpanel">
+                <div class="mini">Spalten schnell wählen: Tabellenkopf klicken.</div>
+                <div class="chips" id="selectChips"></div>
+                <div class="row2">
+                    <button class="btn secondary" id="btnClearSelect">Leeren</button>
+                    <button class="btn secondary" id="btnSelectAll">Alle</button>
+                </div>
+            </div>
+
+            <div class="pane" id="paneFilt" role="tabpanel">
+                <div class="mini">Zelle klicken setzt/entfernt „Feld = Wert".</div>
+                <div class="row3">
+                    <div>
+                        <label>Feld</label>
+                        <select id="wCol"></select>
+                    </div>
+                    <div>
+                        <label>Vergleich</label>
+                        <select id="wOp">
+                            <option value="=">gleich (=)</option>
+                            <option value="!=">ungleich (!=)</option>
+                            <option value=">">größer (&gt;)</option>
+                            <option value=">=">größer/gleich (&gt;=)</option>
+                            <option value="<">kleiner (&lt;)</option>
+                            <option value="<=">kleiner/gleich (&lt;=)</option>
+                            <option value="BETWEEN">zwischen (..)</option>
+                            <option value="IN">in Liste (,)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Mehrere Filter</label>
+                        <select id="wLogic">
+                            <option value="AND">UND</option>
+                            <option value="OR">ODER</option>
+                        </select>
+                    </div>
+                </div>
+                <label>Wert(e) (zwischen: 10..20 | Liste: a,b,c)</label>
+                <input id="wVal" placeholder="z.B. 50  |  10..20  |  NORD,WEST" />
+                <div class="row2">
+                    <button class="btn" id="btnAddWhere">Hinzufügen</button>
+                    <button class="btn secondary" id="btnClearWhere">Leeren</button>
+                </div>
+                <div class="chips" id="whereChips"></div>
+            </div>
+
+            <div class="pane" id="paneSort" role="tabpanel">
+                <div class="row3">
+                    <div>
+                        <label>Sortieren nach</label>
+                        <select id="oCol"></select>
+                    </div>
+                    <div>
+                        <label>Richtung</label>
+                        <select id="oDir">
+                            <option value="ASC">auf (ASC)</option>
+                            <option value="DESC">ab (DESC)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Max. Zeilen</label>
+                        <input id="limit" type="number" min="1" max="200" step="1" />
+                    </div>
+                </div>
+                <div class="row2">
+                    <button class="btn secondary" id="btnClearOrder">Zurück</button>
+                    <button class="btn secondary" id="btnClearAll">Alles leeren</button>
+                </div>
+                <div class="mini">Hinweis: Sortierung bezieht sich auf Spalten, die im Output sichtbar sind.</div>
+            </div>
+
+            <div class="pane" id="paneCalc" role="tabpanel">
+                <div class="row4">
+                    <div>
+                        <label>Links</label>
+                        <select id="lhs"></select>
+                    </div>
+                    <div>
+                        <label>Operator</label>
+                        <select id="op">
+                            <option value="+">+</option>
+                            <option value="-">-</option>
+                            <option value="*">*</option>
+                            <option value="/">/</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Rechts</label>
+                        <select id="rhs"></select>
+                    </div>
+                    <div>
+                        <label>Name</label>
+                        <input id="alias" placeholder="z.B. revenue" />
+                    </div>
+                </div>
+                <div class="row2">
+                    <div class="mini" id="exprPreview"></div>
+                    <button class="btn" id="btnAddExpr">Hinzufügen</button>
+                </div>
+                <div class="chips" id="exprChips"></div>
+                <div class="row2">
+                    <button class="btn secondary" id="btnClearComputed">Leeren</button>
+                    <div class="mini">Beispiel: (qty * price) → revenue</div>
+                </div>
+            </div>
+        </aside>
     </div>
 
-    <!-- Toolbox Overlay -->
-    <div class="toolbox-overlay" id="toolboxOverlay"></div>
-    <aside class="toolbox" id="toolbox" aria-label="Baukasten">
-        <div class="toolHead">
-            <div class="t">Baukasten</div>
-            <div class="close-btn" id="btnCloseToolbox">✕</div>
-        </div>
-
-        <div class="tabs" role="tablist" aria-label="Werkzeuge">
-            <button class="tab active" data-pane="paneCols" role="tab">Spalten</button>
-            <button class="tab" data-pane="paneFilt" role="tab">Filter</button>
-            <button class="tab" data-pane="paneSort" role="tab">Sortierung</button>
-            <button class="tab" data-pane="paneCalc" role="tab">Berechnen</button>
-        </div>
-
-        <!-- Spalten -->
-        <div class="pane active" id="paneCols" role="tabpanel">
-            <div class="mini">Spalten schnell wählen: Tabellenkopf klicken.</div>
-            <div class="chips" id="selectChips"></div>
-            <div class="row2">
-                <button class="btn secondary" id="btnClearSelect">Leeren</button>
-                <button class="btn secondary" id="btnSelectAll">Alle</button>
-            </div>
-        </div>
-
-        <!-- Filter -->
-        <div class="pane" id="paneFilt" role="tabpanel">
-            <div class="mini">Zelle klicken setzt/entfernt „Feld = Wert".</div>
-
-            <div class="row3">
-                <div>
-                    <label>Feld</label>
-                    <select id="wCol"></select>
-                </div>
-                <div>
-                    <label>Vergleich</label>
-                    <select id="wOp">
-                        <option value="=">gleich (=)</option>
-                        <option value="!=">ungleich (!=)</option>
-                        <option value=">">größer (&gt;)</option>
-                        <option value=">=">größer/gleich (&gt;=)</option>
-                        <option value="<">kleiner (&lt;)</option>
-                        <option value="<=">kleiner/gleich (&lt;=)</option>
-                        <option value="BETWEEN">zwischen (..)</option>
-                        <option value="IN">in Liste (,)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Mehrere Filter</label>
-                    <select id="wLogic">
-                        <option value="AND">UND</option>
-                        <option value="OR">ODER</option>
-                    </select>
-                </div>
-            </div>
-
-            <label>Wert(e) (zwischen: 10..20 | Liste: a,b,c)</label>
-            <input id="wVal" placeholder="z.B. 50  |  10..20  |  NORD,WEST" />
-
-            <div class="row2">
-                <button class="btn" id="btnAddWhere">Hinzufügen</button>
-                <button class="btn secondary" id="btnClearWhere">Leeren</button>
-            </div>
-
-            <div class="chips" id="whereChips"></div>
-        </div>
-
-        <!-- Sortierung -->
-        <div class="pane" id="paneSort" role="tabpanel">
-            <div class="row3">
-                <div>
-                    <label>Sortieren nach</label>
-                    <select id="oCol"></select>
-                </div>
-                <div>
-                    <label>Richtung</label>
-                    <select id="oDir">
-                        <option value="ASC">auf (ASC)</option>
-                        <option value="DESC">ab (DESC)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Max. Zeilen</label>
-                    <input id="limit" type="number" min="1" max="200" step="1" />
-                </div>
-            </div>
-
-            <div class="row2">
-                <button class="btn secondary" id="btnClearOrder">Zurück</button>
-                <button class="btn secondary" id="btnClearAll">Alles leeren</button>
-            </div>
-
-            <div class="mini">Hinweis: Sortierung bezieht sich auf Spalten, die im Output sichtbar sind.</div>
-        </div>
-
-        <!-- Berechnen -->
-        <div class="pane" id="paneCalc" role="tabpanel">
-            <div class="row4">
-                <div>
-                    <label>Links</label>
-                    <select id="lhs"></select>
-                </div>
-                <div>
-                    <label>Operator</label>
-                    <select id="op">
-                        <option value="+">+</option>
-                        <option value="-">-</option>
-                        <option value="*">*</option>
-                        <option value="/">/</option>
-                        <option value="%">%</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Rechts</label>
-                    <select id="rhs"></select>
-                </div>
-                <div>
-                    <label>Name</label>
-                    <input id="alias" placeholder="z.B. revenue" />
-                </div>
-            </div>
-
-            <div class="row2">
-                <div class="mini" id="exprPreview"></div>
-                <button class="btn" id="btnAddExpr">Hinzufügen</button>
-            </div>
-
-            <div class="chips" id="exprChips"></div>
-
-            <div class="row2">
-                <button class="btn secondary" id="btnClearComputed">Leeren</button>
-                <div class="mini">Beispiel: (qty * price) → revenue</div>
-            </div>
-        </div>
-    </aside>
-
     <script>
-        // Daten
         const columns = [
             { key: 'id', type: 'number' },
             { key: 'region', type: 'text' },
@@ -645,8 +504,6 @@
         }
 
         const baseData = makeData();
-
-        // State
         const state = {
             view: 'db',
             select: [],
@@ -657,71 +514,12 @@
             limit: 20,
             selectedRowId: null,
             computed: [],
-            editMode: false
+            customSQL: false,
+            sqlText: ''
         };
 
         const $ = id => document.getElementById(id);
 
-        // Toolbox toggle
-        function openToolbox() {
-            $('toolbox').classList.add('open');
-            $('toolboxOverlay').classList.add('open');
-        }
-
-        function closeToolbox() {
-            $('toolbox').classList.remove('open');
-            $('toolboxOverlay').classList.remove('open');
-        }
-
-        $('btnToolbox').addEventListener('click', openToolbox);
-        $('btnCloseToolbox').addEventListener('click', closeToolbox);
-        $('toolboxOverlay').addEventListener('click', closeToolbox);
-
-        // SQL Edit mode
-        function toggleEditMode() {
-            state.editMode = !state.editMode;
-            const pre = $('sqlOut');
-            const textarea = $('sqlEdit');
-            const btn = $('btnToggleEdit');
-
-            if (state.editMode) {
-                pre.classList.remove('active');
-                textarea.classList.add('active');
-                textarea.value = buildSQL();
-                btn.textContent = '↩ Auto';
-                textarea.focus();
-            } else {
-                pre.classList.add('active');
-                textarea.classList.remove('active');
-                btn.textContent = '✎ Bearbeiten';
-                update();
-            }
-        }
-
-        $('btnToggleEdit').addEventListener('click', toggleEditMode);
-
-        // Update URL with SQL parameter
-        function updateURL() {
-            const sql = state.editMode ? $('sqlEdit').value : buildSQL();
-            const params = new URLSearchParams();
-            params.set('sql', sql);
-            window.history.replaceState({}, '', '?' + params.toString());
-        }
-
-        // Load SQL from URL
-        function loadFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            const sqlParam = params.get('sql');
-            if (sqlParam) {
-                state.editMode = true;
-                $('btnToggleEdit').textContent = '↩ Auto';
-                $('sqlOut').classList.remove('active');
-                $('sqlEdit').classList.add('active');
-                $('sqlEdit').value = sqlParam;
-            }
-        }
-
-        // Tabs
         function setTab(paneId) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
@@ -732,7 +530,6 @@
         }
         document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setTab(t.dataset.pane)));
 
-        // Helpers
         function isNumericColumn(colKey) {
             const c = columns.find(x => x.key === colKey);
             return c && c.type === 'number';
@@ -783,7 +580,6 @@
             return null;
         }
 
-        // Query parts
         function getSelectFields() {
             const out = [];
             state.select.forEach(s => {
@@ -822,7 +618,6 @@
             return sql;
         }
 
-        // WHERE evaluation
         function testCond(row, w) {
             const v = row[w.col], op = w.op, rhs = w.val;
 
@@ -849,12 +644,10 @@
             return state.logic === 'OR' ? tests.some(Boolean) : tests.every(Boolean);
         }
 
-        // Execute query (simulation)
         function executeQuery() {
             let rows = baseData.filter(matchesWhere);
             const fields = getSelectFields();
 
-            // Projection
             const projected = rows.map(row => {
                 if (fields.length === 0) {
                     return { ...row };
@@ -872,7 +665,6 @@
                 return out;
             });
 
-            // Sort (only by keys that exist in output)
             if (state.orderBy.col) {
                 const key = state.orderBy.col, dir = state.orderBy.dir;
                 projected.sort((r1, r2) => {
@@ -885,19 +677,16 @@
                 });
             }
 
-            // Limit
             if (state.limit) projected.splice(state.limit);
             return projected;
         }
 
-        // UI: ensure a column is selected (no extra update)
         function ensureSelectCol(colKey) {
             if (state.selectedColsSet.has(colKey)) return;
             state.selectedColsSet.add(colKey);
             if (!state.select.some(s => s.col === colKey)) state.select.push({ col: colKey, alias: colKey });
         }
 
-        // Actions: columns
         function addSelectCol(colKey) {
             ensureSelectCol(colKey);
             update();
@@ -911,7 +700,6 @@
             state.selectedColsSet.has(colKey) ? removeSelectCol(colKey) : addSelectCol(colKey);
         }
 
-        // Actions: filters from table
         function addCellFilter(colKey, value) {
             const idx = state.where.findIndex(w =>
                 w.from === 'cell' && w.op === '=' && w.col === colKey && compareEq(w.val, value)
@@ -939,7 +727,6 @@
             update();
         }
 
-        // Actions: filter form
         function addWhereFromUI() {
             const col = $('wCol').value;
             const op = $('wOp').value;
@@ -973,7 +760,6 @@
             update();
         }
 
-        // Actions: sort/limit
         function setOrderAndLimit() {
             state.orderBy.col = $('oCol').value;
             state.orderBy.dir = $('oDir').value;
@@ -989,7 +775,6 @@
             update();
         }
 
-        // Actions: calc
         function addComputed() {
             const lhs = parseOperand($('lhs').value);
             const op = $('op').value;
@@ -1021,7 +806,6 @@
             $('exprPreview').textContent = `(${operandToSQL(lhs)} ${op} ${operandToSQL(rhs)}) → ${alias}`;
         }
 
-        // Render: select chips
         function renderSelectPanel() {
             const box = $('selectChips');
             box.innerHTML = '';
@@ -1059,7 +843,6 @@
             });
         }
 
-        // Render: where chips
         function renderWherePanel() {
             const box = $('whereChips');
             box.innerHTML = '';
@@ -1100,7 +883,6 @@
             });
         }
 
-        // Render: calc chips
         function renderCalcPanel() {
             const box = $('exprChips');
             box.innerHTML = '';
@@ -1132,142 +914,157 @@
             });
         }
 
-        // Render table
+        function updateSQL() {
+            const sql = state.customSQL ? state.sqlText : buildSQL();
+            const pre = $('sqlOut');
+            pre.textContent = sql;
+            updateURL();
+        }
+
+        function updateURL() {
+            const sql = state.customSQL ? state.sqlText : buildSQL();
+            const encoded = encodeURIComponent(sql);
+            window.history.replaceState(null, '', `?sql=${encoded}`);
+        }
+
         function renderTable() {
             const table = $('mainTable');
             table.innerHTML = '';
 
-            const data = state.view === 'db' ? baseData : executeQuery();
-
-            if (!data.length) {
-                $('mainNote').textContent = 'Keine Zeilen';
-                return;
+            const rows = state.view === 'db' ? baseData : executeQuery();
+            const visibleCols = state.view === 'db' ? columns : (state.select.length > 0 ? state.select.map(s => ({ key: (s.alias || s.col).trim() || s.col })) : columns);
+            if (state.computed.length > 0 && state.view !== 'db') {
+                state.computed.forEach(c => visibleCols.push({ key: c.alias }));
             }
-
-            const cols = state.view === 'db'
-                ? columns.map(c => c.key)
-                : (state.select.length > 0
-                    ? [...state.select.map(s => (s.alias || s.col).trim() || s.col), ...state.computed.map(e => e.alias)]
-                    : columns.map(c => c.key));
 
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
-            cols.forEach(col => {
+            visibleCols.forEach(col => {
                 const th = document.createElement('th');
-                th.textContent = col;
-                th.addEventListener('click', () => toggleSelectCol(col));
-                if (state.selectedColsSet.has(col)) th.classList.add('selCol');
+                th.textContent = col.key;
+                if (state.view === 'db') {
+                    th.addEventListener('click', () => toggleSelectCol(col.key));
+                    if (state.selectedColsSet.has(col.key)) th.classList.add('selCol');
+                }
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
             table.appendChild(thead);
 
             const tbody = document.createElement('tbody');
-            data.forEach(row => {
+            rows.forEach(row => {
                 const tr = document.createElement('tr');
                 if (state.selectedRowId === row.id) tr.classList.add('selected');
 
-                tr.addEventListener('dblclick', () => toggleRowFilter(row.id));
-
-                cols.forEach(col => {
+                visibleCols.forEach(col => {
                     const td = document.createElement('td');
-                    const val = row[col];
+                    const val = row[col.key];
                     td.textContent = formatNumber(val);
 
-                    const isFiltered = state.where.some(w => w.from === 'cell' && w.col === col && compareEq(w.val, val));
-                    if (isFiltered) td.classList.add('cellFiltered');
+                    if (state.view === 'db') {
+                        const isFiltered = state.where.some(w => w.from === 'cell' && w.col === col.key && compareEq(w.val, val));
+                        if (isFiltered) td.classList.add('cellFiltered');
 
-                    td.addEventListener('click', () => addCellFilter(col, val));
+                        td.addEventListener('click', () => addCellFilter(col.key, val));
+                        tr.addEventListener('dblclick', () => toggleRowFilter(row.id));
+                    }
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
 
-            $('mainNote').textContent = `${data.length} Zeilen`;
+            $('badgeBase').textContent = `Basis: ${baseData.length}`;
+            $('badgeResult').textContent = `Ergebnis: ${executeQuery().length}`;
         }
 
-        // Update function
-        function update() {
+        function render() {
             renderSelectPanel();
             renderWherePanel();
             renderCalcPanel();
+            updateSQL();
             renderTable();
-            $('sqlOut').textContent = buildSQL();
-            updateURL();
-
-            const base = baseData.length;
-            const result = executeQuery().length;
-            $('badgeBase').textContent = `Basis: ${base}`;
-            $('badgeResult').textContent = `Ergebnis: ${result}`;
         }
 
-        // Init
-        const selects = ['wCol', 'oCol', 'lhs', 'rhs'];
-        selects.forEach(id => {
-            const sel = $(id);
-            columns.forEach(col => {
-                const opt = document.createElement('option');
-                opt.value = (id === 'lhs' || id === 'rhs') ? `col:${col.key}` : col.key;
-                opt.textContent = col.key;
-                sel.appendChild(opt);
-            });
-        });
+        function update() {
+            state.customSQL = false;
+            render();
+        }
 
-        if (selects.includes('lhs')) {
-            const lhsSel = $('lhs');
-            const rhsSel = $('rhs');
-            columns.forEach(col => {
-                const opt1 = document.createElement('option');
-                opt1.value = `num:${col.key}`;
-                opt1.textContent = 'konstante';
-                rhsSel.appendChild(opt1);
+        function initSelects() {
+            [$('wCol'), $('oCol'), $('lhs'), $('rhs')].forEach(sel => {
+                sel.innerHTML = '';
+                columns.forEach(col => {
+                    const opt = document.createElement('option');
+                    opt.value = col.key;
+                    opt.textContent = col.key;
+                    sel.appendChild(opt);
+                });
             });
         }
 
         $('btnViewDB').addEventListener('click', () => {
-            state.view = 'db';
             $('btnViewDB').classList.add('active');
             $('btnViewOut').classList.remove('active');
-            $('mainTitle').textContent = 'Datenbank';
-            $('mainHint').textContent = 'Spaltenkopf: Spalte anzeigen · Zelle: Filter setzen · Doppelklick Zeile: id-Filter';
-            renderTable();
+            state.view = 'db';
+            render();
         });
 
         $('btnViewOut').addEventListener('click', () => {
-            state.view = 'out';
             $('btnViewOut').classList.add('active');
             $('btnViewDB').classList.remove('active');
-            $('mainTitle').textContent = 'Output';
-            $('mainHint').textContent = 'SQL-Ergebnis basierend auf aktueller Query';
-            renderTable();
-        });
-
-        $('btnExample').addEventListener('click', () => {
-            state.select = [{ col: 'region', alias: 'region' }, { col: 'product', alias: 'product' }, { col: 'qty', alias: 'qty' }];
-            state.selectedColsSet = new Set(['region', 'product', 'qty']);
-            state.where = [{ col: 'qty', op: '>', val: 20, from: 'ui' }];
-            state.orderBy = { col: 'qty', dir: 'DESC' };
-            state.limit = 10;
-            update();
+            state.view = 'out';
+            render();
         });
 
         $('btnReset').addEventListener('click', () => {
             state.select = [];
-            state.selectedColsSet = new Set();
+            state.selectedColsSet.clear();
             state.where = [];
-            state.logic = 'AND';
             state.orderBy = { col: '', dir: 'ASC' };
             state.limit = 20;
             state.selectedRowId = null;
             state.computed = [];
-            state.editMode = false;
-            $('btnToggleEdit').textContent = '✎ Bearbeiten';
-            $('sqlOut').classList.add('active');
-            $('sqlEdit').classList.remove('active');
+            state.customSQL = false;
             $('oDir').value = 'ASC';
-            $('limit').value = 20;
+            $('limit').value = state.limit;
             update();
+        });
+
+        $('sqlContainer').addEventListener('click', () => {
+            if (state.customSQL) return;
+            const sql = buildSQL();
+            const container = $('sqlContainer');
+            container.innerHTML = `
+                <div class="title">Befehl (bearbeitbar · klick auf "Auto" zum zurücksetzen)</div>
+                <textarea id="sqlEdit">${sql}</textarea>
+                <div style="margin-top: 8px;">
+                    <button class="btn" id="btnApply" style="margin-right: 8px;">✓ Auto</button>
+                </div>
+            `;
+            state.customSQL = true;
+
+            const ta = $('sqlEdit');
+            ta.focus();
+            ta.select();
+
+            $('btnApply').addEventListener('click', () => {
+                state.sqlText = ta.value;
+                renderTable();
+                state.customSQL = false;
+                updateSQL();
+                const newContainer = $('sqlContainer');
+                newContainer.innerHTML = `<div class="title">Befehl (klick zum bearbeiten)</div><pre id="sqlOut"></pre>`;
+                $('sqlOut').textContent = state.sqlText;
+            });
+        });
+
+        $('btnBuilder').addEventListener('click', () => {
+            $('toolbox').style.display = 'block';
+        });
+
+        $('btnCloseBuilder').addEventListener('click', () => {
+            $('toolbox').style.display = 'none';
         });
 
         $('btnClearSelect').addEventListener('click', () => {
@@ -1284,32 +1081,53 @@
 
         $('btnAddWhere').addEventListener('click', addWhereFromUI);
         $('btnClearWhere').addEventListener('click', clearWhere);
-        $('wVal').addEventListener('keypress', (e) => { if (e.key === 'Enter') addWhereFromUI(); });
-
-        $('oCol').addEventListener('change', setOrderAndLimit);
-        $('oDir').addEventListener('change', setOrderAndLimit);
-        $('limit').addEventListener('change', setOrderAndLimit);
-
         $('btnClearOrder').addEventListener('click', clearOrder);
         $('btnClearAll').addEventListener('click', () => {
             clearWhere();
             clearOrder();
-            state.select = [];
-            state.selectedColsSet.clear();
-            update();
+            clearComputed();
         });
-
-        $('lhs').addEventListener('change', updateExprPreview);
-        $('op').addEventListener('change', updateExprPreview);
-        $('rhs').addEventListener('change', updateExprPreview);
-        $('alias').addEventListener('input', updateExprPreview);
-        $('btnAddExpr').addEventListener('click', addComputed);
         $('btnClearComputed').addEventListener('click', clearComputed);
+        $('btnAddExpr').addEventListener('click', addComputed);
 
-        // Initialize
+        [$('oCol'), $('oDir'), $('limit')].forEach(el => 
+            el.addEventListener('change', setOrderAndLimit)
+        );
+        [$('lhs'), $('op'), $('rhs'), $('alias')].forEach(el => 
+            el.addEventListener('input', updateExprPreview)
+        );
+
+        function loadFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const sqlParam = params.get('sql');
+            if (sqlParam) {
+                state.sqlText = decodeURIComponent(sqlParam);
+                state.customSQL = true;
+                const container = $('sqlContainer');
+                container.innerHTML = `
+                    <div class="title">Befehl (bearbeitbar · klick auf "Auto" zum zurücksetzen)</div>
+                    <textarea id="sqlEdit">${state.sqlText}</textarea>
+                    <div style="margin-top: 8px;">
+                        <button class="btn" id="btnApply" style="margin-right: 8px;">✓ Auto</button>
+                    </div>
+                `;
+                const ta = $('sqlEdit');
+                $('btnApply').addEventListener('click', () => {
+                    state.sqlText = ta.value;
+                    renderTable();
+                    state.customSQL = false;
+                    updateSQL();
+                    const newContainer = $('sqlContainer');
+                    newContainer.innerHTML = `<div class="title">Befehl (klick zum bearbeiten)</div><pre id="sqlOut"></pre>`;
+                    $('sqlOut').textContent = state.sqlText;
+                });
+                renderTable();
+            }
+        }
+
+        initSelects();
         loadFromURL();
-        update();
+        render();
     </script>
 </body>
-
 </html>
